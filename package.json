@@ -1,0 +1,21 @@
+{
+  "name": "database2work1",
+  "version": "1.0.0",
+  "description": "Group work of Database 2 college subject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gugax7/Database2Work1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gugax7/Database2Work1/issues"
+  },
+  "homepage": "https://github.com/Gugax7/Database2Work1#readme"
+}

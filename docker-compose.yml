@@ -1,0 +1,45 @@
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build: ./backend/demo
+    container_name: spring_backend
+    env_file: ./backend/demo/.env
+    ports: 
+      - "8080:8080"
+    volumes:
+      # Mount your local backend source code into the container
+      - ./backend:/app
+    depends_on:
+      - database
+
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    env_file: ./frontend/.env
+    ports: 
+      - "3000:3000"
+    volumes:
+      # Mount local frontend source code into the container
+      - ./frontend:/app
+      # Keep container node_modules separate from local host node_modules
+      - /app/node_modules
+    environment:
+      # Enables polling for Vite HMR inside Docker (especially on Linux/WSL)
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
