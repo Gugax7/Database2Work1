@@ -13,14 +13,16 @@ services:
     restart: unless-stopped
 
   backend:
-    build: ./backend/demo
+    build: 
+      context: ./backend/demo
+      target: builder
     container_name: spring_backend
     env_file: ./backend/demo/.env
     ports: 
       - "8080:8080"
     volumes:
-      # Mount your local backend source code into the container
-      - ./backend:/app
+      - ./backend/demo:/app
+    command: mvn spring-boot:run  # <-- Ensure this line is present
     depends_on:
       - database
 
