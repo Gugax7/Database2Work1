@@ -1,0 +1,27 @@
+# Isolated project: docker compose -p mythology-tests -f compose.test.yml up --build --abort-on-container-exit --exit-code-from tests
+services:
+  test-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: mythology_test
+      POSTGRES_USER: mythology_test
+      POSTGRES_PASSWORD: local_test_only
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mythology_test -d mythology_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  tests:
+    build:
+      context: ./backend/demo
+      target: development
+    environment:
+      TEST_DATABASE_URL: jdbc:postgresql://test-db:5432/mythology_test
+      TEST_DATABASE_USER: mythology_test
+      TEST_DATABASE_PASSWORD: local_test_only
+    depends_on:
+      test-db:
+        condition: service_healthy
+    command: ["mvn", "-B", "-ntp", "-Dmaven.repo.local=/cache/maven", "test"]
