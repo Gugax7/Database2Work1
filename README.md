@@ -12,6 +12,7 @@ A Database II project built on the original Database I model. Explore beings, ad
   - Henrique Luiz Muniz Silva
   - João Carlos Proença Neto
   - Maria Fernanda Perez
+  - Pietro Ferreira Franca
 
 **Stack:** Java 21, Spring Boot, explicit SQL with JDBC, React/TypeScript, PostgreSQL on Neon, and Docker Compose.
 
